@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -25,6 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Configuration
 public class SecurityConfig {
 
+    private final UserDetailsService userDetailService;
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -68,6 +70,12 @@ public class SecurityConfig {
                     }
                 }).deleteCookies("remember-me");
 
+
+        http.rememberMe()
+                .rememberMeParameter("remember")
+                .tokenValiditySeconds(3600)
+//                .alwaysRemember(true)
+                .userDetailsService(userDetailService);
 
 
         return http.build();

@@ -77,6 +77,11 @@ public class SecurityConfig {
 //                .alwaysRemember(true)
                 .userDetailsService(userDetailService);
 
+        // 인증 객체는 SC에 저장됨.
+        // null 인 경우는 더 이상 찾지 못할때
+        // session 종료라던지
+        // remember-me filter 는 세션 만료나, 브라우저 종료로 세션 종료된 경우 활성화됨.
+
 
         return http.build();
     }
